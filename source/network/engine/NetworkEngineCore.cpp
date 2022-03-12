@@ -7,7 +7,7 @@ network::NetWorkEngineCore::NetWorkEngineCore() : mIoContext(1) {}
 
 network::NetWorkEngineCore::~NetWorkEngineCore() {}
 
-void network::NetWorkEngineCore::setPort(const short port) { mPort = port; }
+void network::NetWorkEngineCore::setPort(const port_t port) { mPort = port; }
 
 void network::NetWorkEngineCore::setTcpProtocol(TcpProtocol protocol) {
   mTcpProtocol = protocol;

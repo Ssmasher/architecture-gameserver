@@ -4,8 +4,12 @@ network::NetworkEngineImpl::NetworkEngineImpl() {}
 
 network::NetworkEngineImpl::~NetworkEngineImpl() {}
 
-void network::NetworkEngineImpl::setPort(const short port) {
+void network::NetworkEngineImpl::setPort(const port_t port) {
   mEngineCore.setPort(port);
+}
+
+void network::NetworkEngineImpl::setTcpProtocol(const TcpProtocol porotocol) {
+  mEngineCore.setTcpProtocol(porotocol);
 }
 
 void network::NetworkEngineImpl::run() { mEngineCore.run(); }

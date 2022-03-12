@@ -13,12 +13,12 @@ class NetworkSession : public std::enable_shared_from_this<NetworkSession> {
   void start();
 
  private:
-  void doRead();
-  void doWrite(size_t length);
+  void readMessage();
+  void sendMessage(size_t length);
 
  private:
   boost::asio::ip::tcp::socket mSocket;
-  std::vector<char> mData;
+  std::vector<char> mDataBuffer;
 };
 
 }  // namespace network

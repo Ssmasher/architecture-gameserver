@@ -2,18 +2,18 @@
 
 #include <boost/asio.hpp>
 
+#include "network/engine/NetworkCommon.h"
+
 namespace network {
 
 class NetWorkEngineCore {
  public:
-  enum class TcpProtocol { V4, V6 };
-
   NetWorkEngineCore();
   virtual ~NetWorkEngineCore();
   NetWorkEngineCore(const NetWorkEngineCore&& rhs) = delete;
   NetWorkEngineCore& operator=(const NetWorkEngineCore&& rhs) = delete;
 
-  void setPort(const short port);
+  void setPort(const port_t port);
   void setTcpProtocol(TcpProtocol protocol);
 
   void run();
@@ -24,7 +24,7 @@ class NetWorkEngineCore {
 
  private:
   bool mIsRunning = false;
-  short mPort = 0;
+  port_t mPort = 0;
   TcpProtocol mTcpProtocol = TcpProtocol::V4;
   boost::asio::io_context mIoContext;
   std::shared_ptr<boost::asio::ip::tcp::acceptor> mAcceptor;

@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "network/engine/NetworkCommon.h"
 #include "network/engine/NetworkEngineCore.h"
 
 namespace network {
@@ -11,7 +12,8 @@ class NetworkEngineImpl {
   NetworkEngineImpl();
   virtual ~NetworkEngineImpl();
 
-  void setPort(const short port);
+  void setPort(const port_t port);
+  void setTcpProtocol(const TcpProtocol porotocol);
 
   void run();
 
