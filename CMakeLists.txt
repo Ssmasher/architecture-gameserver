@@ -11,6 +11,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 set (SOURCE_FILES 
+${CMAKE_CURRENT_SOURCE_DIR}/source/common/Thread.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngine.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngineImpl.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngineCore.cpp

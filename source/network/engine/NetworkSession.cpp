@@ -2,14 +2,12 @@
 
 #include "common/logging.hpp"
 
-#define DEFAULT_DATA_BUFFER_SIZE 1024
-
 constexpr static size_t VectorMaxLength =
     std::numeric_limits<std::vector<char>::size_type>::max();
 
-network::NetworkSession::NetworkSession(
-    boost::asio::ip::tcp::socket&& socket) noexcept
-    : mSocket(std::move(socket)), mDataBuffer(DEFAULT_DATA_BUFFER_SIZE, '\0') {}
+network::NetworkSession::NetworkSession(boost::asio::ip::tcp::socket&& socket,
+                                        size_t bufferSize) noexcept
+    : mSocket(std::move(socket)), mDataBuffer(bufferSize, '\0') {}
 
 network::NetworkSession::~NetworkSession() {}
 

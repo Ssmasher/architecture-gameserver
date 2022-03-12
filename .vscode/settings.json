@@ -58,6 +58,19 @@
     "mutex": "cpp",
     "thread": "cpp",
     "*.ipp": "cpp",
-    "internet": "cpp"
+    "internet": "cpp",
+    "executor": "cpp",
+    "variant": "cpp",
+    "bitset": "cpp",
+    "complex": "cpp",
+    "forward_list": "cpp",
+    "set": "cpp",
+    "buffer": "cpp",
+    "io_context": "cpp",
+    "netfwd": "cpp",
+    "socket": "cpp",
+    "timer": "cpp",
+    "future": "cpp",
+    "typeindex": "cpp"
   }
 }

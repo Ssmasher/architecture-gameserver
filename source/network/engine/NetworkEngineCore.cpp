@@ -14,21 +14,25 @@ void network::NetWorkEngineCore::setTcpProtocol(TcpProtocol protocol) {
 }
 
 void network::NetWorkEngineCore::run() {
-  if (!mIsRunning) {
+  if (!Thread::isRunning()) {
     bool isCreated = createAcceptor();
-    if (true == isCreated) {
-      try {
-        doAccept();
-        mIoContext.run();
-      } catch (std::exception& e) {
-        ERROR("IoContext Exception: " << e.what())
-      }
+    if (isCreated) {
+      Thread::run(std::bind(&NetWorkEngineCore::workThread, this));
+      DEBUG("networkEngine is running");
+    } else {
+      ERROR("networkEngine is not working");
     }
-
-    mIsRunning = true;
-    DEBUG("networkEngine is running");
   } else {
     DEBUG("networkEngine is already running");
+  }
+}
+
+void network::NetWorkEngineCore::workThread() {
+  try {
+    doAccept();
+    mIoContext.run();
+  } catch (std::exception& e) {
+    ERROR("IoContext Exception: " << e.what())
   }
 }
 
@@ -36,7 +40,7 @@ void network::NetWorkEngineCore::doAccept() {
   mAcceptor->async_accept([this](boost::system::error_code erroCode,
                                  boost::asio::ip::tcp::socket socket) {
     if (!erroCode) {
-      std::make_shared<NetworkSession>(std::move(socket))->start();
+      std::make_shared<NetworkSession>(std::move(socket), 1024)->start();
     }
 
     doAccept();

@@ -7,7 +7,8 @@ namespace network {
 
 class NetworkSession : public std::enable_shared_from_this<NetworkSession> {
  public:
-  explicit NetworkSession(boost::asio::ip::tcp::socket&& socket) noexcept;
+  explicit NetworkSession(boost::asio::ip::tcp::socket&& socket,
+                          size_t bufferSize) noexcept;
   virtual ~NetworkSession();
 
   void start();

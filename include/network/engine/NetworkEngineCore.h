@@ -2,11 +2,12 @@
 
 #include <boost/asio.hpp>
 
+#include "common/Thread.h"
 #include "network/engine/NetworkCommon.h"
 
 namespace network {
 
-class NetWorkEngineCore {
+class NetWorkEngineCore : public Thread {
  public:
   NetWorkEngineCore();
   virtual ~NetWorkEngineCore();
@@ -19,11 +20,12 @@ class NetWorkEngineCore {
   void run();
 
  private:
+  void workThread();
+
   void doAccept();
   bool createAcceptor();
 
  private:
-  bool mIsRunning = false;
   port_t mPort = 0;
   TcpProtocol mTcpProtocol = TcpProtocol::V4;
   boost::asio::io_context mIoContext;
