@@ -32,11 +32,11 @@ void network::NetworkSession::sendMessage(size_t length) {
       mSocket, boost::asio::buffer(mDataBuffer.data(), length),
       [this, self](boost::system::error_code erroCode, std::size_t /*length*/) {
         if (!erroCode) {
-          readMessage();  // #TODO: this is for eco test
+          readMessage();
         } else {
           ERROR("writing in session is error. reason: " << erroCode.message())
         }
       });
 
-  mDataBuffer.clear();  // #TODO: this is for eco test
+  mDataBuffer.clear();
 }

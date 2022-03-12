@@ -9,8 +9,12 @@ network::NetWorkEngineCore::~NetWorkEngineCore() {}
 
 void network::NetWorkEngineCore::setPort(const port_t port) { mPort = port; }
 
-void network::NetWorkEngineCore::setTcpProtocol(TcpProtocol protocol) {
+void network::NetWorkEngineCore::setTcpProtocol(const TcpProtocol protocol) {
   mTcpProtocol = protocol;
+}
+
+void network::NetWorkEngineCore::setBufferSize(const size_t size) {
+  mBufferSize = size;
 }
 
 void network::NetWorkEngineCore::run() {
@@ -40,7 +44,7 @@ void network::NetWorkEngineCore::doAccept() {
   mAcceptor->async_accept([this](boost::system::error_code erroCode,
                                  boost::asio::ip::tcp::socket socket) {
     if (!erroCode) {
-      std::make_shared<NetworkSession>(std::move(socket), 1024)->start();
+      std::make_shared<NetworkSession>(std::move(socket), mBufferSize)->start();
     }
 
     doAccept();

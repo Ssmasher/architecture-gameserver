@@ -12,4 +12,8 @@ void network::NetworkEngineImpl::setTcpProtocol(const TcpProtocol porotocol) {
   mEngineCore.setTcpProtocol(porotocol);
 }
 
+void network::NetworkEngineImpl::setBufferSize(const size_t size) {
+  mEngineCore.setBufferSize(size);
+}
+
 void network::NetworkEngineImpl::run() { mEngineCore.run(); }
