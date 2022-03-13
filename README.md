@@ -5,7 +5,6 @@
   * async tcp/ip commuication base on event-driven
   * For POSIX, NetworkEngine is made by boost/asio
 * Content Logic Delegate Class
-  * async
-  * having listener for Network Delegate
+  * main thread
 * DB Delegate Class
   * async
