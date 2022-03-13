@@ -19,7 +19,7 @@ void network::NetworkSession::readMessage() {
       boost::asio::buffer(mDataBuffer.data(), mDataBuffer.size()),
       [this, self](boost::system::error_code erroCode, std::size_t length) {
         if (!erroCode) {
-          sendMessage(length);  // #TODO: this is for eco test
+          sendMessage(length);
         } else {
           ERROR("reading in session is error. reason: " << erroCode.message())
         }

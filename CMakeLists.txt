@@ -22,7 +22,10 @@ set(CMAKE_CXX_FLAGS -pthread)
 
 add_executable (${CMAKE_PROJECT_NAME} main.cpp ${SOURCE_FILES})
 
+find_package(PkgConfig)
+pkg_check_modules(GLIBMM glibmm-2.4)
+
 find_package(Boost REQUIRED)
 
-include_directories(${INCLUDE_FILES} ${Boost_INCLUDE_DIRS})
-target_link_libraries(${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES})
+include_directories(${INCLUDE_FILES} ${Boost_INCLUDE_DIRS} ${GLIBMM_INCLUDE_DIRS})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES} ${GLIBMM_LIBRARIES})

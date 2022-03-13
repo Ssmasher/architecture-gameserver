@@ -7,7 +7,7 @@
 
 namespace network {
 
-class NetWorkEngineCore : public INetWorkSetting, Thread {
+class NetWorkEngineCore : public INetWorkSetting, private Thread {
  public:
   NetWorkEngineCore();
   virtual ~NetWorkEngineCore();
