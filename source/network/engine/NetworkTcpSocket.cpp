@@ -1,13 +1,14 @@
-#include "network/engine/NetworkTcpSoket.h"
+#include "network/engine/NetworkTcpSocket.h"
 
 #include "network/engine/NetworkSession.h"
 
-network::NetworkTcpSoket::NetworkTcpSoket(port_t port, NetworkProtocol protocol)
+network::NetworkTcpSocket::NetworkTcpSocket(port_t port,
+                                            NetworkProtocol protocol)
     : mPort(port), mNetworkProtocol(protocol) {}
 
-network::NetworkTcpSoket::~NetworkTcpSoket() {}
+network::NetworkTcpSocket::~NetworkTcpSocket() {}
 
-bool network::NetworkTcpSoket::create(boost::asio::io_context& ioContext) {
+bool network::NetworkTcpSocket::create(boost::asio::io_context& ioContext) {
   if (nullptr == mAcceptor.get()) {
     switch (mNetworkProtocol) {
       case NetworkProtocol::TCP_V4: {
@@ -32,7 +33,7 @@ bool network::NetworkTcpSoket::create(boost::asio::io_context& ioContext) {
   return (nullptr != mAcceptor.get());
 }
 
-void network::NetworkTcpSoket::doAccept() {
+void network::NetworkTcpSocket::doAccept() {
   mAcceptor->async_accept([this](boost::system::error_code erroCode,
                                  boost::asio::ip::tcp::socket socket) {
     if (!erroCode) {

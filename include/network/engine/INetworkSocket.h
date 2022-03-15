@@ -3,10 +3,10 @@
 namespace network {
 
 template <typename ContextType>
-class INetworkSoket {
+class INetworkSocket {
  public:
-  INetworkSoket() = default;
-  virtual ~INetworkSoket() = default;
+  INetworkSocket() = default;
+  virtual ~INetworkSocket() = default;
   virtual bool create(ContextType& ioContext) = 0;
 };
 

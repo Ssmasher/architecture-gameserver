@@ -16,8 +16,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngine.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngineImpl.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngineCore.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkSession.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkTcpSoket.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkUdpSoket.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkTcpSocket.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkUdpSocket.cpp
 )
 
 set(CMAKE_CXX_FLAGS -pthread)

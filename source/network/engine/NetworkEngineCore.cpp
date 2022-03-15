@@ -2,8 +2,8 @@
 
 #include "common/logging.hpp"
 #include "network/engine/NetworkSession.h"
-#include "network/engine/NetworkTcpSoket.h"
-#include "network/engine/NetworkUdpSoket.h"
+#include "network/engine/NetworkTcpSocket.h"
+#include "network/engine/NetworkUdpSocket.h"
 
 network::NetWorkEngineCore::NetWorkEngineCore() : mIoContext(1) {}
 
@@ -24,7 +24,7 @@ void network::NetWorkEngineCore::setNetworkPacketSize(const size_t header,
 
 void network::NetWorkEngineCore::run() {
   if (!Thread::isRunning()) {
-    bool isCreated = createSoket();
+    bool isCreated = createSocket();
     if (isCreated) {
       Thread::run(std::bind(&NetWorkEngineCore::workThread, this));
       DEBUG("networkEngine is running");
@@ -36,7 +36,7 @@ void network::NetWorkEngineCore::run() {
   }
 }
 
-bool network::NetWorkEngineCore::createSoket() {
+bool network::NetWorkEngineCore::createSocket() {
   bool ret = true;
 
   if (nullptr == mNetworkSocket.get()) {
@@ -44,12 +44,12 @@ bool network::NetWorkEngineCore::createSoket() {
       case NetworkProtocol::TCP_V4:
       case NetworkProtocol::TCP_V6: {
         mNetworkSocket =
-            std::make_unique<NetworkTcpSoket>(mPort, mNetworkProtocol);
+            std::make_unique<NetworkTcpSocket>(mPort, mNetworkProtocol);
       } break;
       case NetworkProtocol::UDP_V4:
       case NetworkProtocol::UDP_V6:
         mNetworkSocket =
-            std::make_unique<NetworkUdpSoket>(mPort, mNetworkProtocol);
+            std::make_unique<NetworkUdpSocket>(mPort, mNetworkProtocol);
       default:
         ERROR("network protocol is not defined");
         ret = false;

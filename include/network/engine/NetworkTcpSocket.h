@@ -2,15 +2,15 @@
 
 #include <boost/asio.hpp>
 
-#include "network/engine/INetworkSoket.h"
+#include "network/engine/INetworkSocket.h"
 #include "network/engine/NetworkCommon.h"
 
 namespace network {
 
-class NetworkTcpSoket : public INetworkSoket<boost::asio::io_context> {
+class NetworkTcpSocket : public INetworkSocket<boost::asio::io_context> {
  public:
-  explicit NetworkTcpSoket(port_t port, NetworkProtocol protocol);
-  virtual ~NetworkTcpSoket();
+  explicit NetworkTcpSocket(port_t port, NetworkProtocol protocol);
+  virtual ~NetworkTcpSocket();
 
   bool create(boost::asio::io_context& ioContext) override;
 

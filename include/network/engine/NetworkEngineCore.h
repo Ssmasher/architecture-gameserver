@@ -4,7 +4,7 @@
 
 #include "common/Thread.h"
 #include "network/engine/INetworkSetting.h"
-#include "network/engine/INetworkSoket.h"
+#include "network/engine/INetworkSocket.h"
 
 namespace network {
 
@@ -22,7 +22,7 @@ class NetWorkEngineCore : public INetWorkSetting, private Thread {
   void run();
 
  private:
-  bool createSoket();
+  bool createSocket();
 
   void workThread();
 
@@ -31,7 +31,7 @@ class NetWorkEngineCore : public INetWorkSetting, private Thread {
   size_t mHeaderSize = 0;
   size_t mPayloadSize = 1024;
   NetworkProtocol mNetworkProtocol = NetworkProtocol::TCP_V4;
-  std::unique_ptr<INetworkSoket<boost::asio::io_context>> mNetworkSocket;
+  std::unique_ptr<INetworkSocket<boost::asio::io_context>> mNetworkSocket;
   boost::asio::io_context mIoContext;
 };
 
