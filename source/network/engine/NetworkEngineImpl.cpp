@@ -8,12 +8,14 @@ void network::NetworkEngineImpl::setPort(const port_t port) {
   mEngineCore.setPort(port);
 }
 
-void network::NetworkEngineImpl::setTcpProtocol(const TcpProtocol porotocol) {
-  mEngineCore.setTcpProtocol(porotocol);
+void network::NetworkEngineImpl::setNetworkProtocol(
+    const NetworkProtocol porotocol) {
+  mEngineCore.setNetworkProtocol(porotocol);
 }
 
-void network::NetworkEngineImpl::setBufferSize(const size_t size) {
-  mEngineCore.setBufferSize(size);
+void network::NetworkEngineImpl::setNetworkPacketSize(const size_t header,
+                                                      const size_t payload) {
+  mEngineCore.setNetworkPacketSize(header, payload);
 }
 
 void network::NetworkEngineImpl::run() { mEngineCore.run(); }

@@ -4,6 +4,7 @@
 
 #include "common/Thread.h"
 #include "network/engine/INetworkSetting.h"
+#include "network/engine/INetworkSoket.h"
 
 namespace network {
 
@@ -15,23 +16,23 @@ class NetWorkEngineCore : public INetWorkSetting, private Thread {
   NetWorkEngineCore& operator=(const NetWorkEngineCore&& rhs) = delete;
 
   void setPort(const port_t port) override;
-  void setTcpProtocol(const TcpProtocol protocol) override;
-  void setBufferSize(const size_t size) override;
+  void setNetworkProtocol(const NetworkProtocol protocol) override;
+  void setNetworkPacketSize(const size_t header, const size_t payload) override;
 
   void run();
 
  private:
-  void workThread();
+  bool createSoket();
 
-  void doAccept();
-  bool createAcceptor();
+  void workThread();
 
  private:
   port_t mPort = 0;
-  size_t mBufferSize = 1024;
-  TcpProtocol mTcpProtocol = TcpProtocol::V4;
+  size_t mHeaderSize = 0;
+  size_t mPayloadSize = 1024;
+  NetworkProtocol mNetworkProtocol = NetworkProtocol::TCP_V4;
+  std::unique_ptr<INetworkSoket<boost::asio::io_context>> mNetworkSocket;
   boost::asio::io_context mIoContext;
-  std::shared_ptr<boost::asio::ip::tcp::acceptor> mAcceptor;
 };
 
 }  // namespace network

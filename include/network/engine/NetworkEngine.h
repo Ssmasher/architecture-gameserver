@@ -3,27 +3,25 @@
 #include <memory>
 #include <string>
 
-#include "network/engine/INetworkSetting.h"
+#include "network/engine/NetworkCommon.h"
 
 namespace network {
 
 class NetworkEngineImpl;
 
-class NetworkEngine : public INetWorkSetting {
+class NetworkEngine {
  public:
-  explicit NetworkEngine(const port_t port, const TcpProtocol porotocol);
+  explicit NetworkEngine(const port_t port, const NetworkProtocol porotocol);
   virtual ~NetworkEngine();
   NetworkEngine(const NetworkEngine&& rhs) = delete;
   NetworkEngine& operator=(const NetworkEngine&& rhs) = delete;
 
-  void setPort(const port_t port) override;
-  void setTcpProtocol(const TcpProtocol porotocol) override;
-  void setBufferSize(const size_t size) override;
+  void setNetworkPacketSize(const size_t header, const size_t payload);
 
   void run();
 
  private:
-  std::shared_ptr<NetworkEngineImpl> mImpl;
+  std::unique_ptr<NetworkEngineImpl> mImpl;
 };
 
 }  // namespace network

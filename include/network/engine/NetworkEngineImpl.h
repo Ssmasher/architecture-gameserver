@@ -13,8 +13,8 @@ class NetworkEngineImpl : public INetWorkSetting {
   virtual ~NetworkEngineImpl();
 
   void setPort(const port_t port) override;
-  void setTcpProtocol(const TcpProtocol porotocol) override;
-  void setBufferSize(const size_t size) override;
+  void setNetworkProtocol(const NetworkProtocol porotocol) override;
+  void setNetworkPacketSize(const size_t header, const size_t payload) override;
 
   void run();
 

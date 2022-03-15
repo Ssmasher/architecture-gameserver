@@ -4,24 +4,17 @@
 #include "network/engine/NetworkEngineImpl.h"
 
 network::NetworkEngine::NetworkEngine(const port_t port,
-                                      const TcpProtocol porotocol)
-    : mImpl(std::make_shared<NetworkEngineImpl>()) {
+                                      const NetworkProtocol porotocol)
+    : mImpl(std::make_unique<NetworkEngineImpl>()) {
   mImpl->setPort(port);
-  mImpl->setTcpProtocol(porotocol);
+  mImpl->setNetworkProtocol(porotocol);
 }
 
 network::NetworkEngine::~NetworkEngine() {}
 
-void network::NetworkEngine::setPort(const port_t port) {
-  mImpl->setPort(port);
-}
-
-void network::NetworkEngine::setTcpProtocol(const TcpProtocol porotocol) {
-  mImpl->setTcpProtocol(porotocol);
-}
-
-void network::NetworkEngine::setBufferSize(const size_t size) {
-  mImpl->setBufferSize(size);
+void network::NetworkEngine::setNetworkPacketSize(const size_t header,
+                                                  const size_t payload) {
+  mImpl->setNetworkPacketSize(header, payload);
 }
 
 void network::NetworkEngine::run() { mImpl->run(); }
