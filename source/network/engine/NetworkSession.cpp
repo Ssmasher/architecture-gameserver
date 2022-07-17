@@ -8,26 +8,28 @@ constexpr static size_t VectorMaxLength =
 
 network::NetworkSession::NetworkSession(boost::asio::ip::tcp::socket&& socket,
                                         size_t bufferSize) noexcept
-    : mSocket(std::move(socket)), mDataBuffer(bufferSize, '\0') {}
+    : mSocket(std::move(socket)), mReceivedDataBuffer(bufferSize, '\0') {}
 
 network::NetworkSession::~NetworkSession() {
   DEBUG("TCP sessionID(" << mSessionID << ") is deleted")
 }
 
 void network::NetworkSession::start() {
-  NetworkServiceTcpBridge::getInstance().emitConnectSession(mSessionID);
+  NetworkServiceTcpBridge::getInstance().mSignalConnectSession(mSessionID);
   readMessage();
 }
 
 void network::NetworkSession::readMessage() {
   auto self(shared_from_this());
   mSocket.async_receive(
-      boost::asio::buffer(mDataBuffer.data(), mDataBuffer.size()),
+      boost::asio::buffer(mReceivedDataBuffer.data(),
+                          mReceivedDataBuffer.size()),
       [this, self](boost::system::error_code erroCode, std::size_t length) {
         if (!erroCode) {
-          NetworkServiceTcpBridge::getInstance().emitSessionEvent(mSessionID,
-                                                                  mDataBuffer);
-          sendMessage(length);
+          NetworkServiceTcpBridge::getInstance().mSignalReceivedFromClient(
+              mSessionID, mReceivedDataBuffer);
+
+          readMessage();
         } else {
           ERROR("reading in session is error. reason: " << erroCode.message())
           NetworkSession::close();
@@ -35,13 +37,13 @@ void network::NetworkSession::readMessage() {
       });
 }
 
-void network::NetworkSession::sendMessage(size_t length) {
+void network::NetworkSession::sendMessage(const std::vector<char>& data) {
   auto self(shared_from_this());
   boost::asio::async_write(
-      mSocket, boost::asio::buffer(mDataBuffer.data(), length),
+      mSocket, boost::asio::buffer(data.data(), data.size()),
       [this, self](boost::system::error_code erroCode, std::size_t /*length*/) {
         if (!erroCode) {
-          readMessage();
+          // nothing to do
         } else {
           ERROR("writing in session is error. reason: " << erroCode.message())
           NetworkSession::close();

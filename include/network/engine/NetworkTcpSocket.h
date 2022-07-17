@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <mutex>
 #include <unordered_map>
 
 #include "network/engine/INetworkSocket.h"
@@ -23,9 +24,11 @@ class NetworkTcpSocket : public INetworkSocket<boost::asio::io_context> {
   void addAliveSessionToList(const std::string& key,
                              const std::shared_ptr<NetworkSession>& session);
   void removeAliveSessionFromList(const std::string& key);
+  const std::shared_ptr<NetworkSession> findSession(const std::string& key);
   bool isSessionInList(const std::string& key);
 
  private:
+  std::mutex mMutex;
   port_t mPort;
   size_t mHeaderSize;
   size_t mPayloadSize;

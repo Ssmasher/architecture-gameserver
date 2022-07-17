@@ -22,22 +22,20 @@ class NetworkServiceTcpBridge : public sigc::trackable {
   void setEventListener(UserClientTcpStub* object);
   void removeEventListener(const UserClientTcpStub* object);
 
-  // thread safe
-  void emitConnectSession(const std::string& sessionID);
-  void emitSessionEvent(const std::string& sessionID,
-                        const std::vector<char>& data);
-
  private:
   void slotConnectSession(const std::string& sessionID);
-  void slotSessionEvent(const std::string& sessionID,
-                        const std::vector<char>& data);
+  void slotReceivedFromClient(const std::string& sessionID,
+                              const std::vector<char>& data);
+
+ public:
+  // signal
+  sigc::signal<void(const std::string&)> mSignalConnectSession;
+  sigc::signal<void(const std::string&, const std::vector<char>&)>
+      mSignalReceivedFromClient;
+  sigc::signal<void(const std::string&, const std::vector<char>&)>
+      mSignalDeliverToClient;
 
  private:
   std::mutex mMutex;
   std::list<UserClientTcpStub*> mObserverList;
-
-  // signal
-  sigc::signal<void(const std::string&)> mSignalConnectSession;
-  sigc::signal<void(const std::string&, const std::vector<char>&)>
-      mSignalSessionEvent;
 };

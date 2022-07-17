@@ -8,9 +8,9 @@ NetworkServiceTcpBridge::NetworkServiceTcpBridge() {
   mSignalConnectSession.connect(
       sigc::mem_fun(this, &NetworkServiceTcpBridge::slotConnectSession));
 
-  mSignalSessionEvent.connect(
+  mSignalReceivedFromClient.connect(
       [this](const std::string& sessionID, const std::vector<char>& data) {
-        slotSessionEvent(sessionID, data);
+        slotReceivedFromClient(sessionID, data);
       });
 }
 
@@ -38,15 +38,6 @@ void NetworkServiceTcpBridge::removeEventListener(
   }
 }
 
-void NetworkServiceTcpBridge::emitConnectSession(const std::string& sessionID) {
-  mSignalConnectSession(sessionID);
-}
-
-void NetworkServiceTcpBridge::emitSessionEvent(const std::string& sessionID,
-                                               const std::vector<char>& data) {
-  mSignalSessionEvent(sessionID, data);
-}
-
 void NetworkServiceTcpBridge::slotConnectSession(const std::string& sessionID) {
   for (auto iter = mObserverList.begin(); iter != mObserverList.end(); ++iter) {
     if (*iter != nullptr) {
@@ -58,8 +49,8 @@ void NetworkServiceTcpBridge::slotConnectSession(const std::string& sessionID) {
   }
 }
 
-void NetworkServiceTcpBridge::slotSessionEvent(const std::string& sessionID,
-                                               const std::vector<char>& data) {
+void NetworkServiceTcpBridge::slotReceivedFromClient(
+    const std::string& sessionID, const std::vector<char>& data) {
   for (auto iter = mObserverList.begin(); iter != mObserverList.end(); ++iter) {
     if (*iter != nullptr) {
       (*iter)->receivedFromClient(sessionID, data);

@@ -15,7 +15,7 @@ class NetworkSession : public std::enable_shared_from_this<NetworkSession> {
   virtual ~NetworkSession();
 
   void readMessage();
-  void sendMessage(size_t length);
+  void sendMessage(const std::vector<char>& data);
 
   void start();
   void close();
@@ -27,7 +27,7 @@ class NetworkSession : public std::enable_shared_from_this<NetworkSession> {
  private:
   DeleteCallAble mDeleteSessionCallback;
   boost::asio::ip::tcp::socket mSocket;
-  std::vector<char> mDataBuffer;
+  std::vector<char> mReceivedDataBuffer;
   std::string mSessionID;
 };
 
