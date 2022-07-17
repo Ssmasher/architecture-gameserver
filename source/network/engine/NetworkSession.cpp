@@ -1,6 +1,7 @@
 #include "network/engine/NetworkSession.h"
 
 #include "common/logging.hpp"
+#include "network/engine/NetworkServiceTcpBridge.h"
 
 constexpr static size_t VectorMaxLength =
     std::numeric_limits<std::vector<char>::size_type>::max();
@@ -13,7 +14,10 @@ network::NetworkSession::~NetworkSession() {
   DEBUG("TCP sessionID(" << mSessionID << ") is deleted")
 }
 
-void network::NetworkSession::start() { readMessage(); }
+void network::NetworkSession::start() {
+  NetworkServiceTcpBridge::getInstance().emitConnectSession(mSessionID);
+  readMessage();
+}
 
 void network::NetworkSession::readMessage() {
   auto self(shared_from_this());
@@ -21,6 +25,8 @@ void network::NetworkSession::readMessage() {
       boost::asio::buffer(mDataBuffer.data(), mDataBuffer.size()),
       [this, self](boost::system::error_code erroCode, std::size_t length) {
         if (!erroCode) {
+          NetworkServiceTcpBridge::getInstance().emitSessionEvent(mSessionID,
+                                                                  mDataBuffer);
           sendMessage(length);
         } else {
           ERROR("reading in session is error. reason: " << erroCode.message())

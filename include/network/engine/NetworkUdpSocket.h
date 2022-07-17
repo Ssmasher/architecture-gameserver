@@ -15,7 +15,6 @@ class NetworkUdpSocket : public INetworkSocket<boost::asio::io_context> {
   bool create(boost::asio::io_context& ioContext) override;
 
  private:
- private:
   port_t mPort;
   NetworkProtocol mNetworkProtocol;
   std::unique_ptr<boost::asio::ip::udp::socket> mUdpSocket;

@@ -18,6 +18,10 @@ ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkEngineCore.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkSession.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkTcpSocket.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkUdpSocket.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/source/network/engine/NetworkServiceTcpBridge.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/source/network/UserClientTcpStub.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/source/network/UserClientTcpProxy.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/source/contents/UserClientHub.cpp
 )
 
 set(CMAKE_CXX_FLAGS -pthread)
