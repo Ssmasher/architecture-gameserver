@@ -37,19 +37,22 @@ void network::NetWorkEngineCore::run() {
 }
 
 bool network::NetWorkEngineCore::createSocket() {
+  DEBUG("create networkEngine socket");
+
   bool ret = true;
 
   if (nullptr == mNetworkSocket.get()) {
     switch (mNetworkProtocol) {
       case NetworkProtocol::TCP_V4:
-      case NetworkProtocol::TCP_V6: {
-        mNetworkSocket =
-            std::make_unique<NetworkTcpSocket>(mPort, mNetworkProtocol);
-      } break;
+      case NetworkProtocol::TCP_V6:
+        mNetworkSocket = std::make_unique<NetworkTcpSocket>(
+            mPort, mNetworkProtocol, mHeaderSize, mPayloadSize);
+        break;
       case NetworkProtocol::UDP_V4:
       case NetworkProtocol::UDP_V6:
         mNetworkSocket =
             std::make_unique<NetworkUdpSocket>(mPort, mNetworkProtocol);
+        break;
       default:
         ERROR("network protocol is not defined");
         ret = false;
@@ -68,6 +71,7 @@ bool network::NetWorkEngineCore::createSocket() {
 
 void network::NetWorkEngineCore::workThread() {
   try {
+    DEBUG("workThread start");
     mIoContext.run();
   } catch (std::exception& e) {
     ERROR("IoContext Exception: " << e.what())
