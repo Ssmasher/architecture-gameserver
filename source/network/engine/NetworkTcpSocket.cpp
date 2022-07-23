@@ -13,7 +13,8 @@ network::NetworkTcpSocket::NetworkTcpSocket(port_t port,
       mNetworkProtocol(protocol) {
   NetworkServiceTcpBridge::getInstance().mSignalDeliverToClient.connect(
       [this](const std::string& sessionID, const std::vector<char>& data) {
-        auto& sharedSession = findSession(sessionID);
+        // working in main thread
+        const auto& sharedSession = findSession(sessionID);
         if (sharedSession.get()) {
           sharedSession->sendMessage(data);
         }

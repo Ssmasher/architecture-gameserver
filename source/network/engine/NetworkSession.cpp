@@ -15,7 +15,7 @@ network::NetworkSession::~NetworkSession() {
 }
 
 void network::NetworkSession::start() {
-  NetworkServiceTcpBridge::getInstance().mSignalConnectSession(mSessionID);
+  NetworkServiceTcpBridge::getInstance().emitConnectSession(mSessionID);
   readMessage();
 }
 
@@ -26,7 +26,7 @@ void network::NetworkSession::readMessage() {
                           mReceivedDataBuffer.size()),
       [this, self](boost::system::error_code erroCode, std::size_t length) {
         if (!erroCode) {
-          NetworkServiceTcpBridge::getInstance().mSignalReceivedFromClient(
+          NetworkServiceTcpBridge::getInstance().emitReceivedFromClient(
               mSessionID, mReceivedDataBuffer);
 
           readMessage();

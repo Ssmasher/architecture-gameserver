@@ -24,7 +24,7 @@ void network::NetWorkEngineCore::setNetworkPacketSize(const size_t header,
 
 void network::NetWorkEngineCore::run() {
   if (!Thread::isRunning()) {
-    bool isCreated = createSocket();
+    bool isCreated = createEngineSocket();
     if (isCreated) {
       Thread::run(std::bind(&NetWorkEngineCore::workThread, this));
       DEBUG("networkEngine is running");
@@ -36,7 +36,7 @@ void network::NetWorkEngineCore::run() {
   }
 }
 
-bool network::NetWorkEngineCore::createSocket() {
+bool network::NetWorkEngineCore::createEngineSocket() {
   DEBUG("create networkEngine socket");
 
   bool ret = true;
@@ -58,12 +58,6 @@ bool network::NetWorkEngineCore::createSocket() {
         ret = false;
         break;
     }
-
-    if (ret) {
-      ret = mNetworkSocket->create(mIoContext);
-    } else {
-      ERROR("network socket didn't created");
-    }
   }
 
   return ret;
@@ -72,7 +66,13 @@ bool network::NetWorkEngineCore::createSocket() {
 void network::NetWorkEngineCore::workThread() {
   try {
     DEBUG("workThread start");
-    mIoContext.run();
+
+    bool ret = mNetworkSocket->create(mIoContext);
+    if (ret) {
+      mIoContext.run();
+    } else {
+      ERROR("network socket didn't created");
+    }
   } catch (std::exception& e) {
     ERROR("IoContext Exception: " << e.what())
   }

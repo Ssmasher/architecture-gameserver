@@ -22,7 +22,7 @@ class NetWorkEngineCore : public INetWorkSetting, private Thread {
   void run();
 
  private:
-  bool createSocket();
+  bool createEngineSocket();
 
   void workThread();
 
